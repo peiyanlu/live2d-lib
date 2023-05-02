@@ -1,0 +1,53 @@
+{
+  "name": "live2d-widget",
+  "version": "1.0.0",
+  "description": "live2d-widget API",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rollup --config rollup.config.ts --silent --configPlugin esbuild"
+  },
+  "type": "module",
+  "exports": {
+    "import": "./lib/live2dWidget.esm.js"
+  },
+  "unpkg": "./lib/live2dWidget.iife.js",
+  "types": "./lib/live2dWidget.d.ts",
+  "keywords": [
+    "live2d",
+    "widget",
+    "Cubism4.x"
+  ],
+  "author": "PeiYanlu",
+  "license": "MIT",
+  "devDependencies": {
+    "@rollup/plugin-alias": "^5.0.0",
+    "@rollup/plugin-commonjs": "^24.1.0",
+    "@rollup/plugin-json": "^6.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.2",
+    "@types/node": "^18.15.13",
+    "esbuild": "^0.17.18",
+    "rollup": "^3.20.7",
+    "rollup-plugin-dts": "^5.3.0",
+    "rollup-plugin-esbuild": "^5.0.0",
+    "rollup-plugin-polyfill-node": "^0.12.0",
+    "typescript": "^5.0.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com:peiyanlu/live2d-widget.git"
+  },
+  "homepage": "https://github.com/peiyanlu/live2d-widget#readme",
+  "bugs": {
+    "url": "https://github.com/peiyanlu/live2d-widget/issues"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
+  "files": [
+    "lib",
+    "resources",
+    "samples",
+    "package.json",
+    "README.md"
+  ]
+}
