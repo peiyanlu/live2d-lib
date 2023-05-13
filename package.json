@@ -1,7 +1,7 @@
 {
-  "name": "live2d-widget",
-  "version": "1.0.0",
-  "description": "live2d-widget API",
+  "name": "live2d-lib",
+  "version": "1.0.1",
+  "description": "A live2d loading API based on the Cubism 4.x SDK",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rollup --config rollup.config.ts --silent --configPlugin esbuild"
@@ -34,11 +34,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com:peiyanlu/live2d-widget.git"
+    "url": "git+ssh://git@github.com:peiyanlu/live2d-lib.git"
   },
-  "homepage": "https://github.com/peiyanlu/live2d-widget#readme",
+  "homepage": "https://github.com/peiyanlu/live2d-lib#readme",
   "bugs": {
-    "url": "https://github.com/peiyanlu/live2d-widget/issues"
+    "url": "https://github.com/peiyanlu/live2d-lib/issues"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"

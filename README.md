@@ -1,6 +1,6 @@
-# live2d-widget
+# live2d-lib
 
-`live2d-widget` 是一个基于 `Cubism 4 SDK` 的看板娘加载 `API`。
+`live2d-lib` 是一个基于 `Cubism 4.x SDK` 的看板娘加载 `API`。
 
 ## ✨特点
 
@@ -12,13 +12,13 @@
 ## 🌈安装
 
 ```shell
-npm install live2d-widget
+npm install live2d-lib
 
 # yarn
-yarn add live2d-widget
+yarn add live2d-lib
 
 # pnpm
-pnpm add live2d-widget
+pnpm add live2d-lib
 ```
 
 ## 🛠️使用
@@ -47,7 +47,7 @@ pnpm add live2d-widget
 * `es` 模块导入
 
 ```js
-import Live2dWidget from 'live2d-widget'
+import Live2dWidget from 'live2d-lib'
 
 Live2dWidget.init({
   canvas: {
