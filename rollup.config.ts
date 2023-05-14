@@ -10,7 +10,7 @@ import nodePolyfills from 'rollup-plugin-polyfill-node'
 
 const input = './src/main.ts'
 const inputIife = './src/main.iife.ts'
-const iifeExternal = readFileSync('./core/live2dcubismcore.min.js')
+const iifeExternal = readFileSync('./live2d/core/live2dCubismCore.min.js')
 const plugins = [
   alias({
     entries: [
@@ -40,7 +40,7 @@ export default defineConfig([
         file: 'lib/live2dWidget.esm.js',
         format: 'esm',
         exports: 'named',
-        intro: iifeExternal,
+        // intro: iifeExternal,
         banner: banner,
         sourcemap: true,
       },

@@ -228,6 +228,7 @@ declare class Live2dWidget {
     static get model(): LAppDelegate;
     static get scene(): LAppLive2DManager;
     static get view(): LAppView;
+    static loadScript(): Promise<unknown>;
     static init(options: LAppDefineOptions): Promise<void>;
     static release(): Promise<void>;
     private static listener;

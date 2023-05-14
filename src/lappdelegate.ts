@@ -1,6 +1,6 @@
 import { CubismFramework, LogLevel, Option } from '@framework/live2dcubismframework'
 
-import LAppDefine from './lappdefine'
+import LAppDefine, { doc } from './lappdefine'
 import { LAppLive2DManager } from './lapplive2dmanager'
 import { LAppPal } from './lapppal'
 import { LAppTextureManager } from './lapptexturemanager'
@@ -70,7 +70,7 @@ export class LAppDelegate {
       alert('Cannot initialize WebGL. This browser does not support.')
       LAppDelegate.gl = null
       
-      document.body.innerHTML = 'This browser does not support the <code>&lt;canvas&gt;</code> element.'
+      doc.body.innerHTML = 'This browser does not support the <code>&lt;canvas&gt;</code> element.'
       
       // gl 初始化失败
       return false
@@ -97,10 +97,10 @@ export class LAppDelegate {
   }
   
   public getCanvas() {
-    let canvas = document.querySelector<HTMLCanvasElement>(`#${ this.canvasId }`)
+    let canvas = doc.querySelector<HTMLCanvasElement>(`#${ this.canvasId }`)
     
     if (!canvas) {
-      canvas = document.createElement('canvas')
+      canvas = doc.createElement('canvas')
       canvas.setAttribute('id', this.canvasId)
     } else {
       this.release()

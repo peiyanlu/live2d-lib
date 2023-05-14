@@ -23,7 +23,7 @@
   "include": [
     "src/**/*.ts",
     "framework/**/*.ts",
-    "./core/*.ts",
+    "cubismcore/*.ts",
     "rollup.config.ts"
   ],
   "exclude": [
