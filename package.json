@@ -1,17 +1,23 @@
 {
   "name": "live2d-lib",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A live2d loading API based on the Cubism 4.x SDK",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rollup --config rollup.config.ts --silent --configPlugin esbuild"
+    "build": "pnpm clean && rollup --config rollup.config.ts --silent --configPlugin esbuild",
+    "clean": "node bin/clean.cjs lib",
+    "postinstall": "node bin/copy-core.cjs"
   },
   "type": "module",
   "exports": {
     "import": "./lib/live2dWidget.esm.js"
   },
-  "unpkg": "./lib/live2dWidget.iife.js",
-  "types": "./lib/live2dWidget.d.ts",
+  "unpkg": "lib/live2dWidget.iife.js",
+  "jsdelivr": "lib/live2dWidget.iife.js",
+  "types": "lib/live2dWidget.d.ts",
+  "bin": {
+    "live2d-lib": "bin/copy-core.cjs"
+  },
   "keywords": [
     "live2d",
     "widget",
@@ -32,6 +38,10 @@
     "rollup-plugin-polyfill-node": "^0.12.0",
     "typescript": "^5.0.4"
   },
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "mkdirp": "^3.0.1"
+  },
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com:peiyanlu/live2d-lib.git"
@@ -44,9 +54,10 @@
     "registry": "https://registry.npmjs.org"
   },
   "files": [
+    "bin",
     "lib",
+    "live2d",
     "resources",
-    "samples",
     "package.json",
     "README.md"
   ]

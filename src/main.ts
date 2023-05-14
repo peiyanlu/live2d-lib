@@ -1,4 +1,4 @@
-import LAppDefine, { HitArea, setDefaults, LAppDefineOptions } from './lappdefine'
+import LAppDefine, { doc, HitArea, LAppDefineOptions, setDefaults } from './lappdefine'
 import { LAppDelegate } from './lappdelegate'
 import { LAppLive2DManager } from './lapplive2dmanager'
 
@@ -26,8 +26,21 @@ export class Live2dWidget {
     return this.model.view
   }
   
+  static async loadScript() {
+    return new Promise((resolve) => {
+      if (globalThis.Live2DCubismCore) resolve(globalThis.Live2DCubismCore)
+      
+      const script = doc.createElement('script')
+      script.src = 'live2d/core/live2dCubismCore.min.js'
+      doc.body.appendChild(script)
+      script.onload = () => resolve(globalThis.Live2DCubismCore)
+    })
+  }
+  
   static async init(options: LAppDefineOptions) {
     setDefaults(options)
+    
+    await this.loadScript()
     
     const init = this.model.initialize()
     if (!init) return

@@ -12,22 +12,22 @@
 ## 🌈安装
 
 ```shell
-npm install live2d-lib
+npm install live2d-lib -D
 
 # yarn
-yarn add live2d-lib
+yarn add live2d-lib -D
 
 # pnpm
-pnpm add live2d-lib
+pnpm add live2d-lib -D
 ```
 
 ## 🛠️使用
 
-* `script` 标签引入
+* `CDN`
 
 ```html
 
-<script src="./lib/live2dWidget.iife.js"></script>
+<script src="https://unpkg.com/live2d-lib"></script>
 <script>
   window.onload = () => {
     Live2dWidget.init({
@@ -36,7 +36,7 @@ pnpm add live2d-lib
         height: 600,
       },
       source: {
-        path: '../resources',
+        path: '/live2d/models',
         models: [ 'hijiki', 'tororo' ]
       },
     })
@@ -44,7 +44,7 @@ pnpm add live2d-lib
 </script>
 ```
 
-* `es` 模块导入
+* `ESModule`
 
 ```js
 import Live2dWidget from 'live2d-lib'
@@ -55,14 +55,21 @@ Live2dWidget.init({
     height: 600,
   },
   scale: 1,
-  debug: true,
+  debug: false,
   target: document.querySelector('#sample'),
   source: {
-    path: '../resources',
+    path: '/live2d/models',
     models: [ 'hijiki', 'tororo' ]
   },
 })
 ```
+
+* 说明
+
+`live2dcubismcore.min.js` 不支持 `ESMdule`，为避免二次编译时 `__dirname` 等 `node` 模块报错，
+`ESModule` 格式文件中对其采用静态资源引入的方式，`live2d-lib` 安装完成后会自动将资源拷贝至项目根目录的 `public` 目录中（e.g.,`public/live2d/core/live2dCubismCore.min.js`）；
+`iife` 格式文件中依旧使用捆绑模式。
+
 
 ## 🔑 API
 
@@ -72,13 +79,13 @@ Live2dWidget.init({
 Live2dWidget.init({} as LAppDefineOptions)
 ```
 
-| 参数名    | 参数说明         | 可选    | 默认值                      |
-|--------|--------------|-------|--------------------------|
-| canvas | canvas 元素的宽高 | true  | {width: 280,height: 360} |
-| scale  | 视觉效果缩放比      | true  | 1.0                      |
-| debug  | 是否打印交互信息     | true  | false                    |
-| target | 模型要渲染的的位置    | true  | document.body            |
-| source | 模型资源的路径      | false | {path:'',models:[]}      |
+| 参数名    | 参数说明                        | 可选    | 默认值                      |
+|--------|-----------------------------|-------|--------------------------|
+| canvas | canvas 元素的宽高，为 auto 时使用窗口大小 | true  | {width: 280,height: 360} |
+| scale  | 视觉效果缩放比                     | true  | 1.0                      |
+| debug  | 是否打印交互信息                    | true  | false                    |
+| target | 模型要渲染的的位置                   | true  | document.body            |
+| source | 模型资源的路径                     | false | {path:'',models:[]}      |
 
 `source` 不提供默认参数值，参数内容为：
 
@@ -108,7 +115,7 @@ Live2dWidget.scene.nextScene()
 
 3. 事件监听
 
-支持对头部、身体、左右胳膊点击事件监听。（需要模型支持重叠检测）
+支持对头部、身体、左右区域（例如：左右胳膊）点击事件监听。（需要模型支持重叠检测）
 
 ```ts
 Live2dWidget.on(type as HitArea, callback as ()=>void)

@@ -66,6 +66,8 @@ export enum Priority {
   Force
 }
 
+export const doc = globalThis.document || {} as Document
+
 const LAppDefine: LAppDefineOptions = {
   canvas: {
     width: 280,
@@ -73,7 +75,7 @@ const LAppDefine: LAppDefineOptions = {
   },
   scale: 1.0,
   debug: false,
-  target: document.body,
+  target: doc.body,
   source: {
     path: '',
     models: [],
@@ -81,7 +83,7 @@ const LAppDefine: LAppDefineOptions = {
 }
 
 export const setDefaults = (options: LAppDefineOptions) => {
-  LAppDefine.target = document.body
+  LAppDefine.target = doc.body
   Object.keys(options).forEach(key => {
     if (LAppDefine.hasOwnProperty(key)) {
       LAppDefine[key] = options[key]
