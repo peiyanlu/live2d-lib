@@ -1,13 +1,14 @@
 # live2d-lib
 
-`live2d-lib` 是一个基于 `Cubism 4.x SDK` 的看板娘加载 `API`。
+`live2d-lib` 是一个基于 `Cubism 4.x SDK` 的 `live2d` 加载 `API`
 
 ## ✨特点
 
 * 支持 `CDN` 和 `ESModule`
-* 支持自定义渲染位置
 * 使用新版本 `Cubism 4.x`
 * 支持 `TypeScript`
+* 支持自定义渲染位置
+* 支持事件监听
 
 ## 🌈安装
 
@@ -76,7 +77,7 @@ Live2dWidget.init({
 1. 场景加载
 
 ```ts
-Live2dWidget.init({} as LAppDefineOptions)
+Live2dWidget.init(options: LAppDefineOptions)
 ```
 
 | 参数名    | 参数说明                        | 可选    | 默认值                      |
@@ -101,7 +102,7 @@ const options: LAppDefineOptions = {
   }
 }
 ```
-模型的加载路径会通过 `path.join()` 处理，上方示例中模型路径会拼接为 `../resources/hijiki/hijiki.model3.json`。
+模型的资源路径会通过 `path.join()` 处理，上方示例中模型路径会拼接为 `../resources/hijiki/hijiki.model3.json`。
 
 2. 场景切换
 
@@ -118,7 +119,7 @@ Live2dWidget.scene.nextScene()
 支持对头部、身体、左右区域（例如：左右胳膊）点击事件监听。（需要模型支持重叠检测）
 
 ```ts
-Live2dWidget.on(type as HitArea, callback as ()=>void)
+Live2dWidget.on(type: HitArea, callback: ()=>void)
 ```
 
 4. 参数类型定义
@@ -173,7 +174,7 @@ export enum MotionGroup {
 
 请阅读官网文档：[重叠检测的设置准备](https://docs.live2d.com/zh-CHS/cubism-editor-manual/hittest/)
 
-为重叠检测用网格的 `ID` 命名时需要使用 `HitArea` 提供的除了 `HitArea.Other` 之外名字方能生效，`HitArea.Other` 用于处理非重叠检测区域的点击操作；
+重叠检测图形网格的 `ID` 命名时保证不唯一即可，`name` 需要使用 `HitArea` 提供的除了 `HitArea.Other` 之外的值，`HitArea.Other` 用于处理非重叠检测区域的点击操作；
 
 点击 `Head` 区域将执行脸部表情，对应的内容不在 `Motions` 中配置而是在 `Expressions`；如果需要在点击重叠检测区域之外时播放动作，请在 `Motions` 中配置 `Tap` 字段；
 
@@ -185,7 +186,7 @@ export enum MotionGroup {
 
 - HitArea.Right -> MotionGroup.TapRight
 
-- 非检测区域 -> MotionGroup.Tap
+- 非检测区域（HitArea.Other） -> MotionGroup.Tap
 
 `xxx.model3.json` 配置示例如下：
 

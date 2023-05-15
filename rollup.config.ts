@@ -8,6 +8,8 @@ import dts from 'rollup-plugin-dts'
 import esbuild, { minify } from 'rollup-plugin-esbuild'
 import nodePolyfills from 'rollup-plugin-polyfill-node'
 
+const start = process.hrtime()
+
 const input = './src/main.ts'
 const inputIife = './src/main.iife.ts'
 const iifeExternal = readFileSync('./live2d/core/live2dCubismCore.min.js')
@@ -72,3 +74,8 @@ export default defineConfig([
     ],
   },
 ] as RollupOptions[])
+
+process.on('beforeExit', () => {
+  const [ s, ns ] = process.hrtime(start)
+  console.log(`build complete in ${ (s + ns / 1000000000).toFixed(2) }s`)
+})

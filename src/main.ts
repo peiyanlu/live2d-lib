@@ -31,7 +31,7 @@ export class Live2dWidget {
       if (globalThis.Live2DCubismCore) resolve(globalThis.Live2DCubismCore)
       
       const script = doc.createElement('script')
-      script.src = 'live2d/core/live2dCubismCore.min.js'
+      script.src = '/live2d/core/live2dCubismCore.min.js'
       doc.body.appendChild(script)
       script.onload = () => resolve(globalThis.Live2DCubismCore)
     })
