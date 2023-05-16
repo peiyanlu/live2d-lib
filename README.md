@@ -80,13 +80,14 @@ Live2dWidget.init({
 Live2dWidget.init(options: LAppDefineOptions)
 ```
 
-| 参数名    | 参数说明                        | 可选    | 默认值                      |
-|--------|-----------------------------|-------|--------------------------|
-| canvas | canvas 元素的宽高，为 auto 时使用窗口大小 | true  | {width: 280,height: 360} |
-| scale  | 视觉效果缩放比                     | true  | 1.0                      |
-| debug  | 是否打印交互信息                    | true  | false                    |
-| target | 模型要渲染的的位置                   | true  | document.body            |
-| source | 模型资源的路径                     | false | {path:'',models:[]}      |
+| 参数名            | 参数说明                        | 可选    | 默认值                                  |
+|----------------|-----------------------------|-------|--------------------------------------|
+| canvas         | canvas 元素的宽高，为 auto 时使用窗口大小 | true  | {width: 280,height: 360}             |
+| scale          | 视觉效果缩放比                     | true  | 1.0                                  |
+| debug          | 是否打印交互信息                    | true  | false                                |
+| target         | 模型要渲染的的位置                   | true  | document.body                        |
+| cubismCorePath | Cubism Core for Web         | true  | /live2d/core/live2dCubismCore.min.js |
+| source         | 模型资源的路径                     | false | {path:'',models:[]}                  |
 
 `source` 不提供默认参数值，参数内容为：
 
@@ -142,6 +143,7 @@ export interface LAppDefineOptions {
   scale?: number;
   debug?: boolean;
   target?: HTMLElement;
+  cubismCorePath?: string;
   source: SourceOptions;
 }
 ```

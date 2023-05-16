@@ -52,6 +52,7 @@ interface LAppDefineOptions {
     scale?: number;
     debug?: boolean;
     target?: HTMLElement;
+    cubismCorePath?: string;
     source: SourceOptions;
 }
 declare enum HitArea {

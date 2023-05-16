@@ -17,6 +17,7 @@ export interface LAppDefineOptions {
   scale?: number;
   debug?: boolean;
   target?: HTMLElement;
+  cubismCorePath?: string;
   source: SourceOptions;
 }
 
@@ -80,6 +81,7 @@ const LAppDefine: LAppDefineOptions = {
     path: '',
     models: [],
   },
+  cubismCorePath: '/live2d/core/live2dCubismCore.min.js',
 }
 
 export const setDefaults = (options: LAppDefineOptions) => {
