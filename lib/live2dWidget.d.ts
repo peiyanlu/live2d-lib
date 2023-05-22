@@ -91,6 +91,7 @@ declare class LAppDelegate {
     static canvas: HTMLCanvasElement;
     static gl: WebGLRenderingContext;
     private readonly canvasId;
+    private loopId;
     static get instance(): LAppDelegate;
     constructor();
     static releaseInstance(): void;
@@ -175,6 +176,7 @@ declare class LAppModel extends CubismUserModel {
     private readonly _leftArmMotionManager;
     private get model();
     constructor();
+    getParameterId(): void;
     loadAssets(dir: string, fileName: string): void;
     private setupModel;
     private setupTextures;

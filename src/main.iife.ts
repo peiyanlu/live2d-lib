@@ -39,7 +39,7 @@ export default class Live2dWidget {
   }
   
   private static listener() {
-    window.addEventListener('beforeunload', () => LAppDelegate.releaseInstance())
+    window.addEventListener('beforeunload', () => this.model.release())
     window.addEventListener('resize', () => (LAppDefine.canvas === 'auto') && this.model.onResize())
   }
   

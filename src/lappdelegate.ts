@@ -20,6 +20,7 @@ export class LAppDelegate {
   public static canvas: HTMLCanvasElement = null
   public static gl: WebGLRenderingContext = null
   private readonly canvasId: string = 'live2d-canvas'
+  private loopId: number = 0
   
   /**
    * 获取一个类的实例。
@@ -153,14 +154,11 @@ export class LAppDelegate {
    */
   public release(): void {
     this.textureManager.release()
-    // this.textureManager = null
-    
     this.view.release()
-    // this.view = null
+    cancelAnimationFrame(this.loopId)
     
     // 释放资源
     LAppLive2DManager.releaseInstance()
-    
     // 释放 Cubism SDK
     CubismFramework.dispose()
   }
@@ -172,11 +170,11 @@ export class LAppDelegate {
     // 主循环
     const loop = (): void => {
       // 检查实例是否存在
-      if (LAppDelegate.instance == null) {
+      if (!LAppDelegate.instance) {
         return
       }
       
-      // 時間更新
+      // 更新时间
       LAppPal.updateTime()
       
       const gl = LAppDelegate.gl
@@ -202,7 +200,7 @@ export class LAppDelegate {
       this.view.render()
       
       // 循环的递归调用
-      requestAnimationFrame(loop)
+      this.loopId = requestAnimationFrame(loop)
     }
     loop()
   }

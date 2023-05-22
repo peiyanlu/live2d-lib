@@ -10,7 +10,10 @@ import { CubismUserModel } from '@framework/model/cubismusermodel'
 import { ACubismMotion, FinishedMotionCallback } from '@framework/motion/acubismmotion'
 import { CubismMotion } from '@framework/motion/cubismmotion'
 import { CubismMotionManager } from '@framework/motion/cubismmotionmanager'
-import { CubismMotionQueueEntryHandle, InvalidMotionQueueEntryHandleValue } from '@framework/motion/cubismmotionqueuemanager'
+import {
+  CubismMotionQueueEntryHandle,
+  InvalidMotionQueueEntryHandleValue,
+} from '@framework/motion/cubismmotionqueuemanager'
 import { csmMap } from '@framework/type/csmmap'
 import { csmRect } from '@framework/type/csmrectf'
 import { csmString } from '@framework/type/csmstring'
@@ -24,6 +27,7 @@ import { LAppDelegate } from './lappdelegate'
 import { LAppPal } from './lapppal'
 import { TextureInfo } from './lapptexturemanager'
 import { LAppWavFileHandler } from './lappwavfilehandler'
+import { CubismIdManager } from '@framework/id/cubismidmanager'
 
 enum LoadStep {
   LoadAssets,
@@ -109,12 +113,7 @@ export class LAppModel extends CubismUserModel {
     this._hitArea = new csmVector<csmRect>()
     this._userArea = new csmVector<csmRect>()
     
-    this.idParamAngleX = CubismFramework.getIdManager().getId(CubismDefaultParameterId.ParamAngleX)
-    this.idParamAngleY = CubismFramework.getIdManager().getId(CubismDefaultParameterId.ParamAngleY)
-    this.idParamAngleZ = CubismFramework.getIdManager().getId(CubismDefaultParameterId.ParamAngleZ)
-    this.idParamEyeBallX = CubismFramework.getIdManager().getId(CubismDefaultParameterId.ParamEyeBallX)
-    this.idParamEyeBallY = CubismFramework.getIdManager().getId(CubismDefaultParameterId.ParamEyeBallY)
-    this.idParamBodyAngleX = CubismFramework.getIdManager().getId(CubismDefaultParameterId.ParamBodyAngleX)
+    this.getParameterId()
     
     this.state = LoadStep.LoadAssets
     this.expressionCount = 0
@@ -127,6 +126,16 @@ export class LAppModel extends CubismUserModel {
     this._leftArmMotionManager = new CubismMotionManager()  // <<<追加！
   }
   
+  public getParameterId() {
+    const idManager: CubismIdManager = CubismFramework.getIdManager()
+    this.idParamAngleX = idManager.getId(CubismDefaultParameterId.ParamAngleX)
+    this.idParamAngleY = idManager.getId(CubismDefaultParameterId.ParamAngleY)
+    this.idParamAngleZ = idManager.getId(CubismDefaultParameterId.ParamAngleZ)
+    this.idParamEyeBallX = idManager.getId(CubismDefaultParameterId.ParamEyeBallX)
+    this.idParamEyeBallY = idManager.getId(CubismDefaultParameterId.ParamEyeBallY)
+    this.idParamBodyAngleX = idManager.getId(CubismDefaultParameterId.ParamBodyAngleX)
+  }
+  
   /**
    * 其中model3.json从目录和文件路径生成模型
    * @param dir
@@ -135,7 +144,7 @@ export class LAppModel extends CubismUserModel {
   public loadAssets(dir: string, fileName: string): void {
     this.modelHomeDir = dir
     
-    fetch(path.join(dir, fileName))
+    fetch(path.join(dir, fileName), { cache: 'no-cache' })
       .then(response => response.arrayBuffer())
       .then(arrayBuffer => {
         const setting: ICubismModelSetting = new CubismModelSettingJson(arrayBuffer, arrayBuffer.byteLength)
@@ -556,7 +565,12 @@ export class LAppModel extends CubismUserModel {
    * @param onFinishedMotionHandler 在动作播放结束时调用的回调函数
    * @return 返回已开始的运动的标识号。 在参数 is Done（） 中使用，以确定单个运动是否已结束。 如果无法启动[-1]
    */
-  public startMotion(group: string, no: number, priority: number, onFinishedMotionHandler?: FinishedMotionCallback): CubismMotionQueueEntryHandle {
+  public startMotion(
+    group: string,
+    no: number,
+    priority: number,
+    onFinishedMotionHandler?: FinishedMotionCallback,
+  ): CubismMotionQueueEntryHandle {
     if (priority == Priority.Force) {
       this._motionManager.setReservePriority(priority)
     } else if (!this._motionManager.reserveMotion(priority)) {
@@ -588,7 +602,11 @@ export class LAppModel extends CubismUserModel {
    * @param onFinishedMotionHandler 在动作播放结束时调用的回调函数
    * @return 返回已开始的运动的标识号。 在参数 is Done（） 中使用，以确定单个运动是否已结束。 如果无法启动[-1]
    */
-  public startRandomMotion(group: string, priority: number, onFinishedMotionHandler?: FinishedMotionCallback): CubismMotionQueueEntryHandle {
+  public startRandomMotion(
+    group: string,
+    priority: number,
+    onFinishedMotionHandler?: FinishedMotionCallback,
+  ): CubismMotionQueueEntryHandle {
     if (this.modelSetting.getMotionCount(group) == 0) {
       return InvalidMotionQueueEntryHandleValue
     }
@@ -634,7 +652,13 @@ export class LAppModel extends CubismUserModel {
   }
   
   // 通过从StartMotion复制创建
-  public startHandMotion(targetManage: CubismMotionManager, group: string, no: number, priority: number, onFinishedMotionHandler?: FinishedMotionCallback): CubismMotionQueueEntryHandle {
+  public startHandMotion(
+    targetManage: CubismMotionManager,
+    group: string,
+    no: number,
+    priority: number,
+    onFinishedMotionHandler?: FinishedMotionCallback,
+  ): CubismMotionQueueEntryHandle {
     if (priority == Priority.Force) {
       targetManage.setReservePriority(priority)
     } else if (!targetManage.reserveMotion(priority)) {
@@ -660,7 +684,11 @@ export class LAppModel extends CubismUserModel {
   }
   
   // 通过startRandomMotion复制创建
-  public startRandomRightHandMotion(group: string, priority: number, onFinishedMotionHandler?: FinishedMotionCallback): CubismMotionQueueEntryHandle {
+  public startRandomRightHandMotion(
+    group: string,
+    priority: number,
+    onFinishedMotionHandler?: FinishedMotionCallback,
+  ): CubismMotionQueueEntryHandle {
     if (this.modelSetting.getMotionCount(group) == 0) {
       return InvalidMotionQueueEntryHandleValue
     }
@@ -670,7 +698,11 @@ export class LAppModel extends CubismUserModel {
   }
   
   // 通过startRandomMotion复制创建
-  public startRandomLeftHandMotion(group: string, priority: number, onFinishedMotionHandler?: FinishedMotionCallback): CubismMotionQueueEntryHandle {
+  public startRandomLeftHandMotion(
+    group: string,
+    priority: number,
+    onFinishedMotionHandler?: FinishedMotionCallback,
+  ): CubismMotionQueueEntryHandle {
     if (this.modelSetting.getMotionCount(group) == 0) {
       return InvalidMotionQueueEntryHandleValue
     }
