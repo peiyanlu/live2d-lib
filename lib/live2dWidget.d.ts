@@ -227,13 +227,14 @@ declare class LAppLive2DManager {
 }
 
 declare class Live2dWidget {
+    static initialized: boolean;
     private static eventListener;
     static get model(): LAppDelegate;
     static get scene(): LAppLive2DManager;
     static get view(): LAppView;
     static loadScript(): Promise<unknown>;
-    static init(options: LAppDefineOptions): Promise<void>;
-    static release(): Promise<void>;
+    static init(options: LAppDefineOptions): Promise<boolean>;
+    static release(): Promise<boolean>;
     private static listener;
     static on(type: HitArea, callback: () => void): void;
     static emit(type: string): void;

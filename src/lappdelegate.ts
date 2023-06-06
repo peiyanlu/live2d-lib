@@ -161,6 +161,8 @@ export class LAppDelegate {
     LAppLive2DManager.releaseInstance()
     // 释放 Cubism SDK
     CubismFramework.dispose()
+    // 移除元素
+    LAppDelegate.canvas.parentNode?.removeChild(LAppDelegate.canvas)
   }
   
   /**

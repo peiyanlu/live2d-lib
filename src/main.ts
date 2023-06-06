@@ -6,6 +6,8 @@ export type { LAppDefineOptions } from './lappdefine'
 export { HitArea } from './lappdefine'
 
 export class Live2dWidget {
+  static initialized: boolean = false
+  
   private static eventListener = {
     [HitArea.Head]: [],
     [HitArea.Body]: [],
@@ -38,20 +40,32 @@ export class Live2dWidget {
   }
   
   static async init(options: LAppDefineOptions) {
-    setDefaults(options)
+    try {
+      setDefaults(options)
+      
+      await this.loadScript()
+      
+      const init = this.model.initialize()
+      if (!init) return
+      
+      this.model.run()
+      
+      this.listener()
+      
+      this.initialized = true
+    } catch ( e ) {
+      this.initialized = false
+    }
     
-    await this.loadScript()
-    
-    const init = this.model.initialize()
-    if (!init) return
-    
-    this.model.run()
-    
-    this.listener()
+    return this.initialized
   }
   
   static async release() {
-    return this.model.release()
+    if (this.initialized) {
+      this.initialized = false
+      LAppDelegate.releaseInstance()
+    }
+    return !this.initialized
   }
   
   private static listener() {
