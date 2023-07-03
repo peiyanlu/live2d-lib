@@ -1,28 +1,7 @@
-import LAppDefine, { HitArea, setDefaults, LAppDefineOptions } from './lappdefine'
-import { LAppDelegate } from './lappdelegate'
-import { LAppLive2DManager } from './lapplive2dmanager'
+import { LAppDefineOptions, setDefaults } from './lappdefine'
+import { Live2dWidgetBase } from './main'
 
-export default class Live2dWidget {
-  private static eventListener = {
-    [HitArea.Head]: [],
-    [HitArea.Body]: [],
-    [HitArea.Left]: [],
-    [HitArea.Right]: [],
-    [HitArea.Other]: [],
-  }
-  
-  static get model() {
-    return LAppDelegate.instance
-  }
-  
-  static get scene() {
-    return LAppLive2DManager.instance
-  }
-  
-  static get view() {
-    return this.model.view
-  }
-  
+export default class Live2dWidgetIife extends Live2dWidgetBase {
   static async init(options: LAppDefineOptions) {
     setDefaults(options)
     
@@ -32,22 +11,5 @@ export default class Live2dWidget {
     this.model.run()
     
     this.listener()
-  }
-  
-  static async release() {
-    return this.model.release()
-  }
-  
-  private static listener() {
-    window.addEventListener('beforeunload', () => this.model.release())
-    window.addEventListener('resize', () => (LAppDefine.canvas === 'auto') && this.model.onResize())
-  }
-  
-  static on(type: HitArea, callback: () => void) {
-    this.eventListener[type]?.push(callback)
-  }
-  
-  static emit(type: string) {
-    this.eventListener[type]?.forEach(callback => callback())
   }
 }
