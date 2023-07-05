@@ -173,7 +173,7 @@ export class LAppModel extends CubismUserModel {
     if (this.modelSetting.getModelFileName() != '') {
       const modelFileName = this.modelSetting.getModelFileName()
       
-      fetch(path.join(this.modelHomeDir, modelFileName))
+      fetch(path.join(this.modelHomeDir, modelFileName), { cache: 'no-cache' })
         .then(response => response.arrayBuffer())
         .then(arrayBuffer => {
           this.loadModel(arrayBuffer)
@@ -198,7 +198,7 @@ export class LAppModel extends CubismUserModel {
           const expressionFileName =
             this.modelSetting.getExpressionFileName(i)
           
-          fetch(path.join(this.modelHomeDir, expressionFileName))
+          fetch(path.join(this.modelHomeDir, expressionFileName), { cache: 'no-cache' })
             .then(response => response.arrayBuffer())
             .then(arrayBuffer => {
               const motion: ACubismMotion = this.loadExpression(
@@ -240,7 +240,7 @@ export class LAppModel extends CubismUserModel {
       if (this.modelSetting.getPhysicsFileName() != '') {
         const physicsFileName = this.modelSetting.getPhysicsFileName()
         
-        fetch(path.join(this.modelHomeDir, physicsFileName))
+        fetch(path.join(this.modelHomeDir, physicsFileName), { cache: 'no-cache' })
           .then(response => response.arrayBuffer())
           .then(arrayBuffer => {
             this.loadPhysics(arrayBuffer, arrayBuffer.byteLength)
@@ -264,7 +264,7 @@ export class LAppModel extends CubismUserModel {
       if (this.modelSetting.getPoseFileName() != '') {
         const poseFileName = this.modelSetting.getPoseFileName()
         
-        fetch(path.join(this.modelHomeDir, poseFileName))
+        fetch(path.join(this.modelHomeDir, poseFileName), { cache: 'no-cache' })
           .then(response => response.arrayBuffer())
           .then(arrayBuffer => {
             this.loadPose(arrayBuffer, arrayBuffer.byteLength)
@@ -335,7 +335,7 @@ export class LAppModel extends CubismUserModel {
       if (this.modelSetting.getUserDataFile() !== '') {
         const userDataFile = this.modelSetting.getUserDataFile()
         
-        fetch(path.join(this.modelHomeDir, userDataFile))
+        fetch(path.join(this.modelHomeDir, userDataFile), { cache: 'no-cache' })
           .then(response => response.arrayBuffer())
           .then(arrayBuffer => {
             this.loadUserData(arrayBuffer, arrayBuffer.byteLength)
@@ -626,7 +626,7 @@ export class LAppModel extends CubismUserModel {
     
     const srcPath = path.join(this.modelHomeDir, motionFileName)
     if (motion == null) {
-      fetch(srcPath)
+      fetch(srcPath, { cache: 'no-cache' })
         .then(response => response.arrayBuffer())
         .then(arrayBuffer => {
           motion = this.loadMotion(arrayBuffer, arrayBuffer.byteLength, null, onFinishedMotionHandler)
@@ -808,7 +808,7 @@ export class LAppModel extends CubismUserModel {
         LAppPal.printMessage(`[APP]load motion: ${ motionFileName } => [${ name }]`)
       }
       
-      fetch(path.join(this.modelHomeDir, motionFileName))
+      fetch(path.join(this.modelHomeDir, motionFileName), { cache: 'no-cache' })
         .then(response => response.arrayBuffer())
         .then(arrayBuffer => {
           const tmpMotion: CubismMotion = this.loadMotion(

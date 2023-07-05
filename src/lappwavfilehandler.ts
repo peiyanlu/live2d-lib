@@ -126,7 +126,7 @@ export class LAppWavFileHandler {
     
     // 文件加载
     const asyncFileLoad = async () => {
-      return fetch(filePath).then(response => {
+      return fetch(filePath, { cache: 'no-cache' }).then(response => {
         return response.arrayBuffer()
       })
     }
