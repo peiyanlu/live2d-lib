@@ -8,11 +8,11 @@ import dts from 'rollup-plugin-dts'
 import esbuild, { minify } from 'rollup-plugin-esbuild'
 import nodePolyfills from 'rollup-plugin-polyfill-node'
 
-const start = process.hrtime()
 
 const input = './src/main.ts'
 const inputIife = './src/main.iife.ts'
-const iifeExternal = readFileSync('./live2d/core/live2dCubismCore.min.js')
+const iifeExternal = readFileSync('./live2d/core/live2dCubismCore.min.js', 'utf-8')
+
 const plugins = [
   alias({
     entries: [
@@ -30,52 +30,67 @@ const plugins = [
   json(),
 ]
 
-const { author, description, name, version } = JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf8'))
+const { author, description, name, version } = JSON.parse(readFileSync(
+  new URL('./package.json', import.meta.url),
+  'utf8',
+))
 
 const banner = `/**\n * name: ${ name }\n * version: v${ version }\n * description: ${ description }\n * author: ${ author }\n * Copyright 2023-present\n * Released under the MIT License.\n */`
 
-export default defineConfig([
-  {
-    input,
-    output: [
-      {
-        file: 'lib/live2dWidget.esm.js',
-        format: 'esm',
-        exports: 'named',
-        // intro: iifeExternal,
-        banner: banner,
-        sourcemap: true,
-      },
-    ],
-    plugins,
-  },
-  {
-    input: inputIife,
-    output: [
-      {
-        file: 'lib/live2dWidget.iife.js',
-        format: 'iife',
-        name: 'Live2dWidget',
-        intro: iifeExternal,
-        banner: banner,
-        sourcemap: true,
-      },
-    ],
-    plugins,
-  },
-  {
-    input,
-    output: {
-      file: 'lib/live2dWidget.d.ts',
+
+const esm: RollupOptions = {
+  input,
+  output: [
+    {
+      file: 'lib/live2dWidget.esm.js',
       format: 'esm',
+      exports: 'named',
+      banner: banner,
+      sourcemap: true,
     },
-    plugins: [
-      dts(),
-    ],
+  ],
+  plugins,
+}
+
+const iife: RollupOptions = {
+  input: inputIife,
+  output: [
+    {
+      file: 'lib/live2dWidget.iife.js',
+      format: 'iife',
+      name: 'Live2dWidget',
+      intro: iifeExternal,
+      banner: banner,
+      sourcemap: true,
+    },
+  ],
+  plugins,
+}
+
+const types: RollupOptions = {
+  input,
+  output: {
+    file: 'lib/live2dWidget.d.ts',
+    format: 'esm',
   },
-] as RollupOptions[])
+  plugins: [
+    dts(),
+  ],
+}
+
+
+const config = defineConfig([])
+
+config.push(esm)
+
+config.push(iife)
+
+config.push(types)
+
+
+export default config
+
 
 process.on('beforeExit', () => {
-  const [ s, ns ] = process.hrtime(start)
-  console.log(`build complete in ${ (s + ns / 1000000000).toFixed(2) }s`)
+  console.log(`${ name }(${ version }) build complete in ${ (process.uptime()).toFixed(2) }s`)
 })

@@ -1,0 +1,26 @@
+{
+  "github": {
+    "tokenRef": "RELEASE_IT_GITHUB_TOKEN",
+    "release": true
+  },
+  "git": {
+    "commit": true,
+    "commitMessage": "release: v${version}",
+    "tag": true,
+    "push": true
+  },
+  "npm": {
+    "publish": true
+  },
+  "hooks": {
+    "after:bump": "pnpm run build",
+    "after:git:release": "echo After git push, before github release",
+    "after:release": "echo Successfully released ${name} v${version} to ${repo.repository}."
+  },
+  "plugins": {
+    "@release-it/conventional-changelog": {
+      "preset": "angular",
+      "infile": "CHANGELOG.md"
+    }
+  }
+}
