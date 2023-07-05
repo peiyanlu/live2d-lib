@@ -226,18 +226,26 @@ declare class LAppLive2DManager {
     setViewMatrix(m: CubismMatrix44): void;
 }
 
-declare class Live2dWidget {
-    static initialized: boolean;
-    private static eventListener;
+declare class Live2dWidgetBase {
+    protected static eventListener: {
+        Head: any[];
+        Body: any[];
+        Left: any[];
+        Right: any[];
+        Other: any[];
+    };
     static get model(): LAppDelegate;
     static get scene(): LAppLive2DManager;
     static get view(): LAppView;
-    static loadScript(): Promise<unknown>;
-    static init(options: LAppDefineOptions): Promise<boolean>;
-    static release(): Promise<boolean>;
-    private static listener;
+    static init(options: LAppDefineOptions): Promise<void>;
+    static release(): Promise<void>;
+    protected static listener(): void;
     static on(type: HitArea, callback: () => void): void;
     static emit(type: string): void;
 }
+declare class Live2dWidget extends Live2dWidgetBase {
+    static loadScript(): Promise<unknown>;
+    static init(options: LAppDefineOptions): Promise<void>;
+}
 
-export { HitArea, LAppDefineOptions, Live2dWidget, Live2dWidget as default };
+export { HitArea, LAppDefineOptions, Live2dWidget, Live2dWidgetBase, Live2dWidget as default };

@@ -1,6 +1,6 @@
 {
   "name": "live2d-lib",
-  "version": "1.0.6",
+  "version": "1.0.8",
   "description": "A live2d loading API based on the Cubism 4.x SDK",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
